@@ -1,6 +1,6 @@
 'use strict';
 
-window.renderStatistics = function(ctx, names, times) {
+window.renderStatistics = function (ctx, names, times) {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
   ctx.fillRect(110, 20, 420, 270);
   ctx.fillStyle = 'white';
@@ -17,8 +17,6 @@ window.renderStatistics = function(ctx, names, times) {
       maxTime = Math.round(times[i]);
     }
   }
-  console.log(times);
-  console.log(maxTime);
   for (var x = 0; x < names.length; x++) {
     ctx.fillStyle = 'black';
     var name = names[x];
