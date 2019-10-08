@@ -10,25 +10,31 @@ window.renderStatistics = function(ctx, names, times) {
   ctx.fillStyle = 'black';
   ctx.fillText('Ура вы победили!', 140, 25);
   ctx.fillText('Список результатов:', 140, 45);
-  // находим максимальное значение в массиве, экономлю место используя Math.max вместо цикла.
-  var maxTime = Math.round(Math.max(...times));
-
-  for (var i = 0; i < names.length; i++) {
+  // находим максимальное значение в массиве циклом
+  var maxTime = 0;
+  for (var i = 0; i < times.length; i++) {
+    if (maxTime < times[i]) {
+      maxTime = Math.round(times[i]);
+    }
+  }
+  console.log(times);
+  console.log(maxTime);
+  for (var x = 0; x < names.length; x++) {
     ctx.fillStyle = 'black';
-    var name = names[i];
-    var time = Math.round(times[i]);
-    //вычисляем высоту колонки со временем используя максимальное значение
+    var name = names[x];
+    var time = Math.round(times[x]);
+    // вычисляем высоту колонки со временем используя максимальное значение
     var graphHeight = (150 * time) / maxTime;
-    var horizontalIncrement = i * 90;
-    var graphColor = 'hsl(240, ' + Math.round(Math.random()*100) + '% , 50%)';
+    var horizontalIncrement = x * 90;
+    var graphColor = 'hsl(240, ' + Math.round(Math.random() * 100) + '% , 50%)';
     ctx.fillText(name, 140 + horizontalIncrement, 250);
-    if (name == "Вы") {
+    if (name === 'Вы') {
       ctx.fillStyle = 'red';
     } else {
       ctx.fillStyle = graphColor;
     }
-    ctx.fillRect( 140 + horizontalIncrement, 240 - graphHeight, 40, graphHeight);
+    ctx.fillRect(140 + horizontalIncrement, 240 - graphHeight, 40, graphHeight);
     ctx.fillStyle = 'black';
-    ctx.fillText(time, 140 + horizontalIncrement, 220 - graphHeight)
+    ctx.fillText(time, 140 + horizontalIncrement, 220 - graphHeight);
   }
 };
