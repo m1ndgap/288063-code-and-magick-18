@@ -14,7 +14,7 @@ var defineColor = function (name, canvas) {
   } else {
     canvas.fillStyle = 'hsl(240, ' + Math.round(Math.random() * 100) + '% , 50%)';
   }
-}
+};
 
 window.renderStatistics = function (ctx, names, times) {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
