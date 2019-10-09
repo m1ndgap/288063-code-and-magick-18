@@ -1,17 +1,31 @@
 'use strict';
 
 var maxTime = 0;
+var font = '16px PT Mono';
+var colorWhite = 'white';
+var colorBlack = 'black';
+var textBaseline = 'hanging';
+var youWonText = 'Ура вы победили!';
+var resultsText = 'Список результатов:';
+
+var defineColor = function (name, canvas) {
+  if (name === 'Вы') {
+    canvas.fillStyle = 'red';
+  } else {
+    canvas.fillStyle = 'hsl(240, ' + Math.round(Math.random() * 100) + '% , 50%)';
+  }
+}
 
 window.renderStatistics = function (ctx, names, times) {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
   ctx.fillRect(110, 20, 420, 270);
-  ctx.fillStyle = 'white';
+  ctx.fillStyle = colorWhite;
   ctx.fillRect(100, 10, 420, 270);
-  ctx.font = '16px PT Mono';
-  ctx.textBaseline = 'hanging';
-  ctx.fillStyle = 'black';
-  ctx.fillText('Ура вы победили!', 140, 25);
-  ctx.fillText('Список результатов:', 140, 45);
+  ctx.font = font;
+  ctx.textBaseline = textBaseline;
+  ctx.fillStyle = colorBlack;
+  ctx.fillText(youWonText, 140, 25);
+  ctx.fillText(resultsText, 140, 45);
   // находим максимальное значение в массиве циклом
   for (var i = 0; i < times.length; i++) {
     if (maxTime < times[i]) {
@@ -19,21 +33,16 @@ window.renderStatistics = function (ctx, names, times) {
     }
   }
   for (var x = 0; x < names.length; x++) {
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = colorBlack;
     var name = names[x];
     var time = Math.round(times[x]);
     // вычисляем высоту колонки со временем используя максимальное значение
     var graphHeight = (150 * time) / maxTime;
     var horizontalIncrement = x * 90;
-    var graphColor = 'hsl(240, ' + Math.round(Math.random() * 100) + '% , 50%)';
     ctx.fillText(name, 140 + horizontalIncrement, 250);
-    if (name === 'Вы') {
-      ctx.fillStyle = 'red';
-    } else {
-      ctx.fillStyle = graphColor;
-    }
+    defineColor(name, ctx);
     ctx.fillRect(140 + horizontalIncrement, 240 - graphHeight, 40, graphHeight);
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = colorBlack;
     ctx.fillText(time, 140 + horizontalIncrement, 220 - graphHeight);
   }
 };
