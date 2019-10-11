@@ -4,9 +4,11 @@ var maxTime = 0;
 var font = '16px PT Mono';
 var colorWhite = 'white';
 var colorBlack = 'black';
+var colorOpacity = 'rgba(0, 0, 0, 0.7)';
 var textBaseline = 'hanging';
 var youWonText = 'Ура вы победили!';
 var resultsText = 'Список результатов:';
+var fieldHeight = 150;
 
 var defineColor = function (name, canvas) {
   if (name === 'Вы') {
@@ -16,33 +18,41 @@ var defineColor = function (name, canvas) {
   }
 };
 
+var drawTitleText = function (canvas) {
+  canvas.font = font;
+  canvas.textBaseline = textBaseline;
+  canvas.fillStyle = colorBlack;
+  canvas.fillText(youWonText, 140, 25);
+  canvas.fillText(resultsText, 140, 45);
+};
+
+var drawRect = function (canvas, color, coords) {
+  canvas.fillStyle = color;
+  canvas.fillRect(coords[0], coords[1], coords[2], coords[3]);
+};
+
+var drawColumn = function (canvas, time, name, increment) {
+  var graphHeight = (fieldHeight * time) / maxTime;
+  var horizontalIncrement = increment * 90;
+  canvas.fillText(name, 140 + horizontalIncrement, 250);
+  var randColor = defineColor(name, canvas);
+  drawRect(canvas, randColor, [140 + horizontalIncrement, 240 - graphHeight, 40, graphHeight]);
+  canvas.fillStyle = colorBlack;
+  canvas.fillText(time, 140 + horizontalIncrement, 220 - graphHeight);
+};
+
 window.renderStatistics = function (ctx, names, times) {
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  ctx.fillRect(110, 20, 420, 270);
-  ctx.fillStyle = colorWhite;
-  ctx.fillRect(100, 10, 420, 270);
-  ctx.font = font;
-  ctx.textBaseline = textBaseline;
-  ctx.fillStyle = colorBlack;
-  ctx.fillText(youWonText, 140, 25);
-  ctx.fillText(resultsText, 140, 45);
-  // находим максимальное значение в массиве циклом
+  drawRect(ctx, colorOpacity, [110, 20, 420, 270]);
+  drawRect(ctx, colorWhite, [100, 10, 420, 270]);
+  drawTitleText(ctx);
   for (var i = 0; i < times.length; i++) {
     if (maxTime < times[i]) {
       maxTime = Math.round(times[i]);
     }
   }
   for (var x = 0; x < names.length; x++) {
-    ctx.fillStyle = colorBlack;
     var name = names[x];
     var time = Math.round(times[x]);
-    // вычисляем высоту колонки со временем используя максимальное значение
-    var graphHeight = (150 * time) / maxTime;
-    var horizontalIncrement = x * 90;
-    ctx.fillText(name, 140 + horizontalIncrement, 250);
-    defineColor(name, ctx);
-    ctx.fillRect(140 + horizontalIncrement, 240 - graphHeight, 40, graphHeight);
-    ctx.fillStyle = colorBlack;
-    ctx.fillText(time, 140 + horizontalIncrement, 220 - graphHeight);
+    drawColumn(ctx, time, name, x);
   }
 };
