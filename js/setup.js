@@ -7,8 +7,8 @@ var WIZCOLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)'
 var WIZEYECOLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 
 // declaring functions
-var rng = function (array) {
-  return Math.floor(Math.random() * array.length);
+var rng = function (min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
 };
 
 /**
@@ -19,20 +19,22 @@ window.generateWizards = function () {
   var wizards = [];
   for (var i = 0; i < 4; i++) {
     var wizard = {
-      'name': WIZNAMES[rng(WIZNAMES)] + ' ' + WIZLASTNAMES[rng(WIZLASTNAMES)],
-      'coatColor': WIZCOLORS[rng(WIZCOLORS)],
-      'eyesColor': WIZEYECOLORS[rng(WIZEYECOLORS)],
+      'name': WIZNAMES[rng(0, WIZNAMES.length)] + ' ' + WIZLASTNAMES[rng(0, WIZLASTNAMES.length)],
+      'coatColor': WIZCOLORS[rng(0, WIZCOLORS.length)],
+      'eyesColor': WIZEYECOLORS[rng(0, WIZEYECOLORS.length)],
     };
     wizards.push(wizard);
   }
   return wizards;
+
 };
 
 /**
-* generating DOM objects using wizards array* @
+* generating DOM objects using wizards array
 * @param {array} wizards generated before
+* @param {element} template dom object
 */
-window.generateWizardDom = function (wizards) {
+window.generateWizardDom = function (wizards, template) {
   for (var x = 0; x < wizards.length; x++) {
     var element = template.content.querySelector('.setup-similar-item').cloneNode(true);
     var wizard = wizards[x];
@@ -40,20 +42,20 @@ window.generateWizardDom = function (wizards) {
     var wizCoat = element.querySelector('.wizard-coat');
     var wizEyes = element.querySelector('.wizard-eyes');
     wizName.innerText = wizard['name'];
-    wizCoat.setAttribute('style', 'fill:' + wizard['coatColor']);
-    wizEyes.setAttribute('style', 'fill:' + wizard['eyesColor']);
+    wizCoat.setAttribute('style', 'fill:' + wizard.coatColor);
+    wizEyes.setAttribute('style', 'fill:' + wizard.eyesColor);
     fragment.appendChild(element);
   }
 };
 
 // assigning DOM elements to variables
-var template = document.querySelector('#similar-wizard-template');
 var fragment = document.createDocumentFragment();
 var setup = document.querySelector('.setup');
 var setupSimilar = document.querySelector('.setup-similar');
 
 // generating data and creating DOM
-window.generateWizardDom(window.generateWizards());
+var template = document.querySelector('#similar-wizard-template');
+window.generateWizardDom(window.generateWizards(), template);
 
 // adding DOM to the page
 setupSimilar.appendChild(fragment);
