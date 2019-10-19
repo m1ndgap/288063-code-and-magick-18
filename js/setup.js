@@ -86,8 +86,6 @@ WIZARDROBE.addEventListener('click', function () {
   var color = WIZCOLORS[rng(0, WIZCOLORS.length - 1)];
   WIZARDROBE.setAttribute('style', 'fill: ' + color);
 });
-console.log(FIREBALL);
-console.log(FIREBALLCOLOR);
 FIREBALL.addEventListener('click', function () {
   var color = FIREBALLCOLORS[rng(0, FIREBALLCOLORS.length - 1)];
   FIREBALL.setAttribute('style', 'background-color:' + color);
