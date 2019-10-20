@@ -6,15 +6,7 @@ var WIZLASTNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Ва
 var WIZCOLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var WIZEYECOLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 var FIREBALLCOLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
-// moved these to constants because I want to add listeners in the functions section, is this correct?
-var SETUP = document.querySelector('.setup');
-var SETUPOPEN = document.querySelector('.setup-open');
-var SETUPCLOSE = SETUP.querySelector('.setup-close');
-var SETUPUSERNAME = document.querySelector('.setup-user-name');
-var WIZARDEYES = document.querySelector('.setup-wizard-appearance .wizard-eyes');
-var WIZARDROBE = document.querySelector('.setup-wizard-appearance .wizard-coat');
-var FIREBALL = document.querySelector('.setup-player .setup-fireball-wrap');
-var FIREBALLCOLOR = document.querySelector('.setup-player .setup-fireball-wrap input');
+
 
 // declaring functions
 var rng = function (min, max) {
@@ -58,40 +50,6 @@ window.generateWizardDom = function (wizards, template) {
   }
 };
 
-// adding event listeners
-SETUPOPEN.addEventListener('click', function () {
-  SETUP.classList.remove('hidden');
-});
-SETUPOPEN.setAttribute('tabindex', '0');
-SETUPOPEN.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
-    SETUP.classList.remove('hidden');
-  }
-});
-SETUPCLOSE.addEventListener('click', function () {
-  SETUP.classList.add('hidden');
-});
-document.addEventListener('keydown', function (evt) {
-  if (!SETUP.classList.contains('hidden') && evt.keyCode === 27) {
-    SETUP.classList.add('hidden');
-  }
-});
-SETUPUSERNAME.setAttribute('minlength', '2');
-SETUPUSERNAME.setAttribute('maxlength', '25');
-WIZARDEYES.addEventListener('click', function () {
-  var color = WIZEYECOLORS[rng(0, WIZEYECOLORS.length - 1)];
-  WIZARDEYES.setAttribute('style', 'fill: ' + color);
-});
-WIZARDROBE.addEventListener('click', function () {
-  var color = WIZCOLORS[rng(0, WIZCOLORS.length - 1)];
-  WIZARDROBE.setAttribute('style', 'fill: ' + color);
-});
-FIREBALL.addEventListener('click', function () {
-  var color = FIREBALLCOLORS[rng(0, FIREBALLCOLORS.length - 1)];
-  FIREBALL.setAttribute('style', 'background-color:' + color);
-  FIREBALLCOLOR.setAttribute('value', color);
-});
-
 // assigning DOM elements to variables
 var fragment = document.createDocumentFragment();
 var setupSimilar = document.querySelector('.setup-similar');
@@ -99,6 +57,51 @@ var setupSimilar = document.querySelector('.setup-similar');
 // generating data and creating DOM
 var template = document.querySelector('#similar-wizard-template');
 window.generateWizardDom(window.generateWizards(), template);
+
+// decraling element variables and assigning event listeners to them
+var setup = document.querySelector('.setup');
+var setupOpen = document.querySelector('.setup-open');
+var wizardEyesEl = document.querySelector('.setup-wizard-appearance .wizard-eyes');
+var wizardRobeEl = document.querySelector('.setup-wizard-appearance .wizard-coat');
+var fireBallEl = document.querySelector('.setup-player .setup-fireball-wrap');
+var fireBallColorInput = document.querySelector('.setup-player .setup-fireball-wrap input');
+
+setupOpen.addEventListener('click', function () {
+  setup.classList.remove('hidden');
+});
+setupOpen.setAttribute('tabindex', '0');
+setupOpen.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    setup.classList.remove('hidden');
+  }
+});
+
+var setupCLose = setup.querySelector('.setup-close');
+setupCLose.addEventListener('click', function () {
+  setup.classList.add('hidden');
+});
+document.addEventListener('keydown', function (evt) {
+  if (!setup.classList.contains('hidden') && evt.keyCode === 27) {
+    setup.classList.add('hidden');
+  }
+});
+
+var setupUsername = document.querySelector('.setup-user-name');
+setupUsername.setAttribute('minlength', '2');
+setupUsername.setAttribute('maxlength', '25');
+wizardEyesEl.addEventListener('click', function () {
+  var color = WIZEYECOLORS[rng(0, WIZEYECOLORS.length - 1)];
+  wizardEyesEl.setAttribute('style', 'fill: ' + color);
+});
+wizardRobeEl.addEventListener('click', function () {
+  var color = WIZCOLORS[rng(0, WIZCOLORS.length - 1)];
+  wizardRobeEl.setAttribute('style', 'fill: ' + color);
+});
+fireBallEl.addEventListener('click', function () {
+  var color = FIREBALLCOLORS[rng(0, FIREBALLCOLORS.length - 1)];
+  fireBallEl.setAttribute('style', 'background-color:' + color);
+  fireBallColorInput.setAttribute('value', color);
+});
 
 // adding DOM to the page
 setupSimilar.appendChild(fragment);
