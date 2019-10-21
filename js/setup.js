@@ -103,10 +103,10 @@ var setupUsername = document.querySelector('.setup-user-name');
 setupUsername.setAttribute('minlength', '2');
 setupUsername.setAttribute('maxlength', '25');
 wizardEyesEl.addEventListener('click', function () {
-  window.changeSvgElColor(WIZEYECOLORS, wizardEyesEl, 'fill','style');
+  window.changeSvgElColor(WIZEYECOLORS, wizardEyesEl, 'fill', 'style');
 });
 wizardRobeEl.addEventListener('click', function () {
-  window.changeSvgElColor(WIZCOLORS, wizardRobeEl, 'fill','style');
+  window.changeSvgElColor(WIZCOLORS, wizardRobeEl, 'fill', 'style');
 });
 fireBallEl.addEventListener('click', function () {
   window.changeSvgElColor(FIREBALLCOLORS, fireBallEl, 'background-color', 'style');
