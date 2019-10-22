@@ -6,7 +6,8 @@ var WIZLASTNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Ва
 var WIZCOLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var WIZEYECOLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 var FIREBALLCOLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
-
+var ENTERKEY = 13;
+var ESCKEY = 27;
 
 // declaring functions
 var rng = function (min, max) {
@@ -50,6 +51,18 @@ window.generateWizardDom = function (wizards, template) {
   }
 };
 
+/**
+ * changing color of the element on click
+ * @param {array} colorarray array of possible colors
+ * @param {element} element svg we are applying the color to
+ * @param {string} style text to put into inline style alongside the color
+ * @param {string} attribute attribute of html tag we are changing (value/style)
+ */
+window.changeSvgElColor = function (colorarray, element, style, attribute) {
+  var color = colorarray[rng(0, colorarray.length - 1)];
+  element.setAttribute(attribute, style + ': ' + color);
+};
+
 // assigning DOM elements to variables
 var fragment = document.createDocumentFragment();
 var setupSimilar = document.querySelector('.setup-similar');
@@ -71,17 +84,17 @@ setupOpen.addEventListener('click', function () {
 });
 setupOpen.setAttribute('tabindex', '0');
 setupOpen.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
+  if (evt.keyCode === ENTERKEY) {
     setup.classList.remove('hidden');
   }
 });
 
-var setupCLose = setup.querySelector('.setup-close');
-setupCLose.addEventListener('click', function () {
+var setupClose = setup.querySelector('.setup-close');
+setupClose.addEventListener('click', function () {
   setup.classList.add('hidden');
 });
 document.addEventListener('keydown', function (evt) {
-  if (!setup.classList.contains('hidden') && evt.keyCode === 27) {
+  if (!setup.classList.contains('hidden') && evt.keyCode === ESCKEY) {
     setup.classList.add('hidden');
   }
 });
@@ -90,18 +103,28 @@ var setupUsername = document.querySelector('.setup-user-name');
 setupUsername.setAttribute('minlength', '2');
 setupUsername.setAttribute('maxlength', '25');
 wizardEyesEl.addEventListener('click', function () {
-  var color = WIZEYECOLORS[rng(0, WIZEYECOLORS.length - 1)];
-  wizardEyesEl.setAttribute('style', 'fill: ' + color);
+  window.changeSvgElColor(WIZEYECOLORS, wizardEyesEl, 'fill', 'style');
 });
 wizardRobeEl.addEventListener('click', function () {
-  var color = WIZCOLORS[rng(0, WIZCOLORS.length - 1)];
-  wizardRobeEl.setAttribute('style', 'fill: ' + color);
+  window.changeSvgElColor(WIZCOLORS, wizardRobeEl, 'fill', 'style');
 });
 fireBallEl.addEventListener('click', function () {
-  var color = FIREBALLCOLORS[rng(0, FIREBALLCOLORS.length - 1)];
-  fireBallEl.setAttribute('style', 'background-color:' + color);
-  fireBallColorInput.setAttribute('value', color);
+  window.changeSvgElColor(FIREBALLCOLORS, fireBallEl, 'background-color', 'style');
+  window.changeSvgElColor(FIREBALLCOLORS, fireBallColorInput, '', 'value');
 });
+// wizardEyesEl.addEventListener('click', function () {
+//   var color = WIZEYECOLORS[rng(0, WIZEYECOLORS.length - 1)];
+//   wizardEyesEl.setAttribute('style', 'fill: ' + color);
+// });
+// wizardRobeEl.addEventListener('click', function () {
+//   var color = WIZCOLORS[rng(0, WIZCOLORS.length - 1)];
+//   wizardRobeEl.setAttribute('style', 'fill: ' + color);
+// });
+// fireBallEl.addEventListener('click', function () {
+//   var color = FIREBALLCOLORS[rng(0, FIREBALLCOLORS.length - 1)];
+//   fireBallEl.setAttribute('style', 'background-color:' + color);
+//   fireBallColorInput.setAttribute('value', color);
+// });
 
 // adding DOM to the page
 setupSimilar.appendChild(fragment);
