@@ -48,7 +48,6 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  // adding DOM to the page
   window.setupSimilar.appendChild(window.fragment);
 
   // showing hidden elements with new content
